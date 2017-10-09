@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.9)
+
+set(NAME Lab2) #Project name
+
+project(${NAME})
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wshadow -march=native -pipe")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -ggdb")
+
+set(HEADER_FILES)
+set(SOURCE_FILES Lab2.cpp)
+set(PROJECT_FILES ${HEADER_FILES} ${SOURCE_FILES})
+
+add_executable(${NAME} ${PROJECT_FILES})
