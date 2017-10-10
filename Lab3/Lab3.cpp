@@ -22,8 +22,8 @@ int mul(const std::vector<int>& mas) {
 
 int sumd(const std::vector<std::vector<int>>& mat) {
     int res = 0;
-    for (size_t i = 0, j = 0; i < mat.size() && j < mat[0].size(); i++, j++) {
-        res += mat[i][j];
+    for (size_t i = 0; i < mat.size() && i < mat[0].size(); i++) {
+        res += mat[i][i];
     }
     return res;
 }
@@ -54,27 +54,29 @@ int sumdd(const std::vector<std::vector<int>>& mat) {
 
 int mulpd(const std::vector<std::vector<int>>& mat) {
     int res = 1;
-    for (size_t i = 0, j = mat[0].size(); i < mat.size() && j >= 1; i++, j--) {
-        res *= mat[i][j - 1];
+    for (size_t j = 0; j < mat[0].size() && mat.size() - j > 0; j++) {
+        res *= mat[mat.size() - j - 1][j];
     }
     return res;
 }
 
-int max_ch_str(const std::vector<std::vector<int>>& mat) {
-    int res = 0;
-    for (size_t i = 0; i < mat.size(); i += 2) {
+std::vector<int> max_ch_str(const std::vector<std::vector<int>>& mat) {
+    std::vector<int> res;
+    for (size_t i = 1; i < mat.size(); i += 2) {
+        res.push_back(0);
         for (size_t j = 0; j < mat[0].size(); j++) {
-            res = std::max<int>(res, mat[i][j]);
+            res.back() = std::max<int>(res.back(), mat[i][j]);
         }
     }
     return res;
 }
 
-int min_noch_stlb(const std::vector<std::vector<int>>& mat) {
-    int res = 999999;
-    for (size_t j = 1; j < mat[0].size(); j += 2) {
+std::vector<int> min_noch_stlb(const std::vector<std::vector<int>>& mat) {
+    std::vector<int> res;
+    for (size_t j = 0; j < mat[0].size(); j += 2) {
+        res.push_back(999999);
         for (size_t i = 0; i < mat.size(); i++) {
-            res = std::min<int>(res, mat[i][j]);
+            res.back() = std::min<int>(res.back(), mat[i][j]);
         }
     }
     return res;
@@ -132,8 +134,12 @@ void testMat() {
     std::cout << "Сумма элементов выше главной диагонали = " << sumdu(mat) << std::endl;
     std::cout << "Сумма элементов ниже главной диагонали = " << sumdd(mat) << std::endl;
     std::cout << "Произведение элементов побочной диагонали = " << mulpd(mat) << std::endl;
-    std::cout << "Максимум элементов чётных строк матрицы = " << max_ch_str(mat) << std::endl;
-    std::cout << "Минимум элементов нечётных столбцов матрицы = " << min_noch_stlb(mat) << std::endl;
+    std::vector<int> res1 = max_ch_str(mat);
+    std::cout << "Максимумы чётных строк матрицы" << std::endl;
+    printMas(res1);
+    std::vector<int> res2 = min_noch_stlb(mat);
+    std::cout << "Минимумы нечётных столбцов матрицы" << std::endl;
+    printMas(res2);
     std::cout << "Произведение двух матриц" << std::endl;
     std::vector<std::vector<int>> mat1 = {
             {1, 2},
@@ -143,7 +149,7 @@ void testMat() {
     printMat(mat1);
     std::vector<std::vector<int>> mat2 = {
             {4, 3},
-            {1, 2}
+            {2, 1}
     };
     std::cout << "2 матрица" << std::endl;
     printMat(mat2);
