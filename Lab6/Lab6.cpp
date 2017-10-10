@@ -2,7 +2,6 @@
 #include <locale>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 struct Employee {
     int t_num;
@@ -17,17 +16,17 @@ struct Employee {
             : t_num(t_num_), name(name_), salary(salary_), post(post_), gender(gender_) {}
 
     friend std::ostream& operator<<(std::ostream& os, const Employee& employee) {
-        os << "Номер: " << employee.t_num << std::endl;
-        os << "ФИО: " << employee.name << std::endl;
-        os << "Оклад: " << employee.salary << std::endl;
-        os << "Должность: " << employee.post << std::endl;
-        os << "Пол: " << employee.gender << std::endl;
+        os << "Номер: " << employee.t_num << "; "
+           << "ФИО: " << employee.name << "; "
+           << "Оклад: " << employee.salary << "; "
+           << "Должность: " << employee.post << "; "
+           << "Пол: " << employee.gender << ".";
         return os;
     }
 
     friend std::istream& operator>>(std::istream& is, Employee& employee) {
         is >> employee.t_num;
-        is >> employee.name;
+        is >> employee.name; //std::getline(is >> std::ws, employee.name);
         is >> employee.salary;
         is >> employee.post;
         is >> employee.gender;
@@ -96,11 +95,29 @@ std::vector<Employee> enterEmployees() {
     return res;
 }
 
+void printEmployees(const std::vector<Employee>& employees) {
+    std::cout << "Список:" << std::endl;
+    for (const Employee& employee : employees) {
+        std::cout << employee << std::endl;
+    }
+}
+
 /*
 1 Вася 15500 Грузчик Мужчина
 2 Катя 25000 Менеджер Женщина
 3 Саня 35000 Программист Мужчина
 4 Даша 15000 Кассир Женщина
+*/
+
+/*
+1 Вася Пупкин
+15500 Грузчик Мужчина
+2 Катя Печкина
+25000 Менеджер Женщина
+3 Саня Петров
+35000 Программист Мужчина
+4 Даша Ельцина
+15000 Кассир Женщина
 */
 
 int main() {
@@ -112,6 +129,7 @@ int main() {
             {4, "Даша", 25000, "Руководитель", "Женщина"}
     };
     std::vector<Employee> employees = enterEmployees();
+    printEmployees(employees);
     std::cout << "Сумма окладов: " << sum_salary(employees) << std::endl;
     std::cout << "Кол-во мужчин: " << sum_m(employees) << std::endl;
     std::cout << "Кол-во женщин: " << sum_f(employees) << std::endl;
