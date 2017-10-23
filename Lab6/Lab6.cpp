@@ -3,33 +3,43 @@
 #include <iostream>
 #include <vector>
 
+enum class Gender {
+    Man = 0,
+    Women
+};
+
 struct Employee {
     int t_num;
     std::string name;
     int salary;
     std::string post;
-    std::string gender;
-
-    Employee() {}
-
-    Employee(int t_num_, const std::string& name_, int salary_, const std::string& post_, const std::string& gender_)
-            : t_num(t_num_), name(name_), salary(salary_), post(post_), gender(gender_) {}
+    Gender gender;
 
     friend std::ostream& operator<<(std::ostream& os, const Employee& employee) {
         os << "Номер: " << employee.t_num << "; "
            << "ФИО: " << employee.name << "; "
            << "Оклад: " << employee.salary << "; "
-           << "Должность: " << employee.post << "; "
-           << "Пол: " << employee.gender << ".";
+           << "Должность: " << employee.post << "; ";
+        if (employee.gender == Gender::Man) {
+            os << "Пол: Мужчина" << ".";
+        } else {
+            os << "Пол: Женщина" << ".";
+        }
         return os;
     }
 
     friend std::istream& operator>>(std::istream& is, Employee& employee) {
         is >> employee.t_num;
-        is >> employee.name; //std::getline(is >> std::ws, employee.name);
+        is >> employee.name; // std::getline(is >> std::ws, employee.name);
         is >> employee.salary;
         is >> employee.post;
-        is >> employee.gender;
+        std::string str;
+        is >> str;
+        if (str == "Мужчина") {
+            employee.gender = Gender::Man;
+        } else {
+            employee.gender = Gender::Women;
+        }
         return is;
     }
 };
@@ -45,7 +55,7 @@ int sum_salary(const std::vector<Employee>& employees) {
 int sum_m(const std::vector<Employee>& employees) {
     int res = 0;
     for (const Employee& employee : employees) {
-        if (employee.gender == "Мужчина") {
+        if (employee.gender == Gender::Man) {
             res++;
         }
     }
@@ -55,7 +65,7 @@ int sum_m(const std::vector<Employee>& employees) {
 int sum_f(const std::vector<Employee>& employees) {
     int res = 0;
     for (const Employee& employee : employees) {
-        if (employee.gender == "Женщина") {
+        if (employee.gender == Gender::Women) {
             res++;
         }
     }
@@ -65,7 +75,7 @@ int sum_f(const std::vector<Employee>& employees) {
 int sum_salary_m(const std::vector<Employee>& employees) {
     int res = 0;
     for (const Employee& employee : employees) {
-        if (employee.gender == "Мужчина") {
+        if (employee.gender == Gender::Man) {
             res += employee.salary;
         }
     }
@@ -75,7 +85,7 @@ int sum_salary_m(const std::vector<Employee>& employees) {
 int sum_salary_f(const std::vector<Employee>& employees) {
     int res = 0;
     for (const Employee& employee : employees) {
-        if (employee.gender == "Женщина") {
+        if (employee.gender == Gender::Women) {
             res += employee.salary;
         }
     }
@@ -96,20 +106,24 @@ std::vector<Employee> enterEmployees() {
 }
 
 void printEmployees(const std::vector<Employee>& employees) {
-    std::cout << "Список:" << std::endl;
+    std::cout << "Список" << std::endl;
     for (const Employee& employee : employees) {
         std::cout << employee << std::endl;
     }
 }
 
+// Type 1
 /*
+4
 1 Вася 15500 Грузчик Мужчина
 2 Катя 25000 Менеджер Женщина
 3 Саня 35000 Программист Мужчина
 4 Даша 15000 Кассир Женщина
 */
 
+// Type 2
 /*
+4
 1 Вася Пупкин
 15500 Грузчик Мужчина
 2 Катя Печкина
@@ -122,11 +136,12 @@ void printEmployees(const std::vector<Employee>& employees) {
 
 int main() {
     std::locale::global(std::locale(""));
+    // Test
     std::vector<Employee> employees1 = {
-            {1, "Вася", 5500,  "Грузчик",      "Мужчина"},
-            {2, "Петя", 7500,  "Строитель",    "Мужчина"},
-            {3, "Катя", 13000, "Менеджер",     "Женщина"},
-            {4, "Даша", 25000, "Руководитель", "Женщина"}
+            {1, "Вася", 5500,  "Грузчик",      Gender::Man},
+            {2, "Петя", 7500,  "Строитель",    Gender::Women},
+            {3, "Катя", 13000, "Менеджер",     Gender::Man},
+            {4, "Даша", 25000, "Руководитель", Gender::Women}
     };
     std::vector<Employee> employees = enterEmployees();
     printEmployees(employees);
