@@ -59,19 +59,22 @@ Lexeme parse(const std::string& text) {
 int main() {
     std::locale::global(std::locale(""));
     std::vector<Lexeme> lexemes;
-    int n;
     std::string str;
-    std::cin >> n;
-    for (int i = 0; i < n; i++) {
-        std::cin >> str;
-        Lexeme lexeme = parse(str);
-        if (lexeme.name != "Error") {
-            lexemes.push_back(lexeme);
-        } else {
+    std::getline(std::cin >> std::ws, str);
+    while (!str.empty()) {
+        Lexeme lexeme = parse(str.substr(0, str.find(' ')));
+        if (lexeme.name == "Error") {
             std::cout << "Error: " << lexeme.text << std::endl;
+        } else {
+            lexemes.push_back(lexeme);
+        }
+        if (str.find(' ') != std::string::npos) {
+            str = str.substr(str.find(' ') + 1, str.size());
+        } else {
+            str.clear();
         }
     }
-    for (Lexeme& lexeme : lexemes) {
+    for (const Lexeme& lexeme : lexemes) {
         std::cout << "Тип лексемы: " << lexeme.name << std::endl;
         std::cout << "Текст: " << lexeme.text << std::endl;
     }
