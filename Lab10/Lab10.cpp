@@ -115,5 +115,6 @@ int main() {
     std::cout << "Кол-во женщин: " << sum_f(employees2) << std::endl;
     std::cout << "Сумма окладов мужчин: " << sum_salary_m(employees2) << std::endl;
     std::cout << "Сумма окладов женщин: " << sum_salary_f(employees2) << std::endl;
+    //std::system("pause");
     return 0;
 }

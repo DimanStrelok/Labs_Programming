@@ -43,11 +43,13 @@ Lexeme parse(const std::string& text) {
             lexeme.name = "Меньше или равно";
             lexeme.text = text;
             return lexeme;
-        } else if (text == ">=") {
+        }
+        if (text == ">=") {
             lexeme.name = "Больше или равно";
             lexeme.text = text;
             return lexeme;
-        } else if (text == ":=") {
+        }
+        if (text == ":=") {
             lexeme.name = "Присвоить";
             lexeme.text = text;
             return lexeme;
@@ -57,10 +59,10 @@ Lexeme parse(const std::string& text) {
 }
 
 int main() {
-    std::locale::global(std::locale(""));
+    //std::locale::global(std::locale(""));
     std::vector<Lexeme> lexemes;
     std::string str;
-    std::getline(std::cin >> std::ws, str);
+    std::getline(std::cin, str);
     while (!str.empty()) {
         Lexeme lexeme = parse(str.substr(0, str.find(' ')));
         if (lexeme.name == "Error") {
@@ -78,5 +80,6 @@ int main() {
         std::cout << "Тип лексемы: " << lexeme.name << std::endl;
         std::cout << "Текст: " << lexeme.text << std::endl;
     }
+    //std::system("pause");
     return 0;
 }
