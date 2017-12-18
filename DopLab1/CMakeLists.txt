@@ -1,19 +1,19 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.10)
 
-set(NAME Lab10) #Project name
+set(NAME DopLab1) # Project name
 
 project(${NAME})
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wshadow -march=native -pipe")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -ggdb")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g")
 
 set(HEADER_FILES)
-set(SOURCE_FILES Lab10.cpp)
+set(SOURCE_FILES DopLab1.cpp)
 set(PROJECT_FILES ${HEADER_FILES} ${SOURCE_FILES})
 
 add_executable(${NAME} ${PROJECT_FILES})
